@@ -244,11 +244,11 @@ export default function Home() {
         <div className="gallery-grid">
           <figure className="gallery-card gallery-tall">
             <img src={assets.bilingualBook} alt="Pro Polly segurando um livro de Pedagogia Bilíngue" loading="lazy" />
-            <figcaption><img className="gallery-bloom" src={assets.mark} alt="" aria-hidden="true" /><span>ACERVO 01</span> Formação que amplia horizontes</figcaption>
+            <figcaption><span>ACERVO 01</span> Formação que amplia horizontes</figcaption>
           </figure>
           <figure className="gallery-card gallery-tall gallery-offset">
             <img src={assets.positiveDiscipline} alt="Pro Polly apresentando uma leitura sobre disciplina positiva em sala de aula" loading="lazy" />
-            <figcaption><img className="gallery-bloom" src={assets.mark} alt="" aria-hidden="true" /><span>ACERVO 02</span> Leitura que inspira a prática</figcaption>
+            <figcaption><span>ACERVO 02</span> Leitura que inspira a prática</figcaption>
           </figure>
           <div className="gallery-note">
             <Flower2 size={28} aria-hidden="true" />

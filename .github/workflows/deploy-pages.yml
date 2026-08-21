@@ -1,0 +1,68 @@
+name: Publicar portfólio no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Configurar pnpm
+        run: corepack enable
+
+      - name: Instalar dependências
+        run: pnpm install --frozen-lockfile
+
+      - name: Preparar acervo visual
+        run: |
+          mkdir -p client/public/assets
+          ASSET_SOURCE="https://propollyfoli-du2mfngg.manus.space/manus-storage"
+          curl --fail --location --retry 3 "$ASSET_SOURCE/pro-polly-flower-mark_c9c68c9a.png" -o client/public/assets/pro-polly-flower-mark.png
+          curl --fail --location --retry 3 "$ASSET_SOURCE/pro-polly-hero-botanical_78110055.png" -o client/public/assets/pro-polly-hero-botanical.png
+          curl --fail --location --retry 3 "$ASSET_SOURCE/pro-polly-study-still-life_cf1dae83.png" -o client/public/assets/pro-polly-study-still-life.png
+          curl --fail --location --retry 3 "$ASSET_SOURCE/pro-polly-growth-illustration_51a1cf65.png" -o client/public/assets/pro-polly-growth-illustration.png
+          curl --fail --location --retry 3 "$ASSET_SOURCE/pro-polly-retrato-profissional_d1881cf3.jpeg" -o client/public/assets/pro-polly-retrato-profissional.jpeg
+          curl --fail --location --retry 3 "$ASSET_SOURCE/pro-polly-com-pedagogia-bilingue_b99280c0.jpeg" -o client/public/assets/pro-polly-com-pedagogia-bilingue.jpeg
+          curl --fail --location --retry 3 "$ASSET_SOURCE/pro-polly-disciplina-positiva_28f2e908.jpeg" -o client/public/assets/pro-polly-disciplina-positiva.jpeg
+
+      - name: Compilar portfólio
+        run: VITE_GITHUB_PAGES=true pnpm build
+
+      - name: Preparar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Enviar artefato de publicação
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/public
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

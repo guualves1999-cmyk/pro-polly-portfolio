@@ -18,14 +18,22 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+const useGitHubPagesAssets = import.meta.env.VITE_GITHUB_PAGES === "true";
+
+function assetPath(fileName: string, manusStorageKey: string) {
+  return useGitHubPagesAssets
+    ? `${import.meta.env.BASE_URL}assets/${fileName}`
+    : `/manus-storage/${manusStorageKey}`;
+}
+
 const assets = {
-  mark: "/manus-storage/pro-polly-flower-mark_c9c68c9a.png",
-  heroBotanical: "/manus-storage/pro-polly-hero-botanical_78110055.png",
-  studyStillLife: "/manus-storage/pro-polly-study-still-life_cf1dae83.png",
-  growthIllustration: "/manus-storage/pro-polly-growth-illustration_51a1cf65.png",
-  portrait: "/manus-storage/pro-polly-retrato-profissional_d1881cf3.jpeg",
-  bilingualBook: "/manus-storage/pro-polly-com-pedagogia-bilingue_b99280c0.jpeg",
-  positiveDiscipline: "/manus-storage/pro-polly-disciplina-positiva_28f2e908.jpeg",
+  mark: assetPath("pro-polly-flower-mark.png", "pro-polly-flower-mark_c9c68c9a.png"),
+  heroBotanical: assetPath("pro-polly-hero-botanical.png", "pro-polly-hero-botanical_78110055.png"),
+  studyStillLife: assetPath("pro-polly-study-still-life.png", "pro-polly-study-still-life_cf1dae83.png"),
+  growthIllustration: assetPath("pro-polly-growth-illustration.png", "pro-polly-growth-illustration_51a1cf65.png"),
+  portrait: assetPath("pro-polly-retrato-profissional.jpeg", "pro-polly-retrato-profissional_d1881cf3.jpeg"),
+  bilingualBook: assetPath("pro-polly-com-pedagogia-bilingue.jpeg", "pro-polly-com-pedagogia-bilingue_b99280c0.jpeg"),
+  positiveDiscipline: assetPath("pro-polly-disciplina-positiva.jpeg", "pro-polly-disciplina-positiva_28f2e908.jpeg"),
 };
 
 const menuItems = [
